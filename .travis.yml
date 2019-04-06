@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t djagielo/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run djagielo/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t djagielo/multi-client ./client
+  - docker build -t djagielo/multi-nginx ./nginx
+  - docker build -t djagielo/multi-server ./server
+  - docker build -t djagielo/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push djagielo/multi-client
+  - docker push djagielo/multi-nginx
+  - docker push djagielo/multi-server
+  - docker push djagielo-multi-worker
