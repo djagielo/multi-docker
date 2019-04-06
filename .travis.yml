@@ -17,7 +17,7 @@ after_success:
   - docker push djagielo/multi-client
   - docker push djagielo/multi-nginx
   - docker push djagielo/multi-server
-  - docker push djagielo-multi-worker
+  - docker push djagielo/multi-worker
 deploy:
   provider: elasticbeanstalk
   region: eu-west-1
